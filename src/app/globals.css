@@ -1,0 +1,767 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F1F8E9;
+  --foreground: #1B4332;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: rgba(51, 182, 58, 0.22);
+  color: #15402e;
+}
+
+:focus-visible {
+  outline: 2px solid #40c847;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Page-level entrance animation, replayed on every navigation via app/template.tsx */
+.page-transition {
+  animation: pageIn 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll-triggered reveal, driven by the <Reveal> client component */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Kid-friendly mascot */
+.mascot-bounce {
+  animation: mascotBounce 3.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+@keyframes mascotBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-1.5deg);
+  }
+}
+
+.mascot-arm {
+  transform-origin: 58px 110px;
+  animation: mascotWave 1.8s ease-in-out infinite;
+}
+
+@keyframes mascotWave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-22deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-14deg);
+  }
+}
+
+/* Floating decorative shapes (stars, hearts, bubbles) */
+.shape-float {
+  animation: shapeFloat 7s ease-in-out infinite, shapeTwinkle 3.4s ease-in-out infinite;
+}
+
+@keyframes shapeFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(10deg);
+  }
+}
+
+@keyframes shapeTwinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Playful bounce for buttons and cartoon-styled controls */
+.btn-pop {
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 200ms ease;
+}
+
+.btn-pop:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.btn-pop:active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* Category cards on the home page */
+.category-icon-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.category-card:hover .category-icon-float {
+  animation: categoryIconBounce 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes categoryIconBounce {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  30% {
+    transform: scale(1.12) rotate(-8deg);
+  }
+  60% {
+    transform: scale(0.96) rotate(6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.category-badge-pulse {
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.category-card:hover .category-badge-pulse {
+  animation: categoryBadgeWiggle 600ms ease-in-out;
+}
+
+@keyframes categoryBadgeWiggle {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(-18deg) scale(1.18);
+  }
+  75% {
+    transform: rotate(18deg) scale(1.18);
+  }
+}
+
+.category-bar {
+  background-position: 0% 0%;
+  transition: background-position 700ms ease;
+}
+
+.category-card:hover .category-bar {
+  background-position: 100% 0%;
+}
+
+.category-title {
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.category-card:hover .category-title {
+  transform: scale(1.06) rotate(-1deg);
+}
+
+/* Scanner-style hover border: a single short glowing segment that travels
+   clockwise around the card's exact border-radius path. Built with a real
+   SVG <rect> (not a masked gradient), using pathLength=100 so the dash
+   values are size-independent — it works the same at any card width. */
+.category-card {
+  position: relative;
+}
+
+.card-scanner {
+  z-index: 0;
+  overflow: visible;
+}
+
+.card-scanner-path {
+  fill: none;
+  stroke: #75dd7b;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 9 91;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 3px rgba(117, 221, 123, 0.95)) drop-shadow(0 0 7px rgba(83, 212, 89, 0.6));
+  transition: opacity 300ms ease;
+}
+
+.category-card:hover .card-scanner-path {
+  opacity: 1;
+  animation: cardScannerTravel 2.6s linear infinite;
+}
+
+@keyframes cardScannerTravel {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-scanner-path {
+    transition: none;
+  }
+
+  .category-card:hover .card-scanner-path {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mascot-bounce,
+  .mascot-arm,
+  .shape-float {
+    animation: none;
+  }
+
+  .category-icon-float,
+  .category-card:hover .category-icon-float,
+  .category-card:hover .category-badge-pulse {
+    animation: none;
+  }
+
+  .category-card:hover .category-title {
+    transform: none;
+  }
+
+  .page-transition {
+    animation: none;
+  }
+
+  .reveal-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .float-slow,
+  .float-delay {
+    animation: none;
+  }
+
+  .product-detail-hero,
+  .product-detail-image-card,
+  .product-detail-info-card {
+    animation: none;
+  }
+}
+
+.page-shell {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(106, 218, 112, 0.16), transparent 34%),
+    radial-gradient(circle at 84% 10%, rgba(83, 212, 89, 0.12), transparent 30%),
+    radial-gradient(circle at 78% 72%, rgba(52, 191, 151, 0.1), transparent 28%),
+    radial-gradient(circle at 12% 88%, rgba(242, 177, 198, 0.12), transparent 24%),
+    linear-gradient(180deg, #fbfefb 0%, #f7fdf6 42%, #ffffff 100%);
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.hero-glow {
+  background:
+    radial-gradient(circle at 16% 26%, rgba(255, 255, 255, 0.95), transparent 38%),
+    radial-gradient(circle at 74% 14%, rgba(209, 243, 210, 0.34), transparent 22%),
+    radial-gradient(circle at 56% 58%, rgba(236, 249, 236, 0.45), transparent 24%),
+    radial-gradient(circle at 84% 52%, rgba(201, 245, 228, 0.22), transparent 21%),
+    linear-gradient(130deg, rgba(124, 222, 129, 0.1), rgba(53, 181, 149, 0.08));
+}
+
+.hero-panel {
+  isolation: isolate;
+}
+
+.hero-overlay {
+  background: linear-gradient(90deg, rgba(244, 252, 243, 0.9) 0%, rgba(247, 253, 246, 0.8) 58%, rgba(244, 252, 244, 0.16) 100%);
+}
+
+.float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.float-delay {
+  animation: floatSlow 10s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 640px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1025px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* Ensure proper spacing and padding on all screens */
+@media (max-width: 768px) {
+  .page-shell {
+    background:
+      radial-gradient(circle at top left, rgba(106, 218, 112, 0.14), transparent 40%),
+      radial-gradient(circle at 84% 14%, rgba(83, 212, 89, 0.11), transparent 32%),
+      radial-gradient(circle at 80% 78%, rgba(52, 191, 151, 0.1), transparent 30%),
+      linear-gradient(180deg, #fbfefb 0%, #f7fdf6 48%, #ffffff 100%);
+  }
+
+  .hero-overlay {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(244, 252, 243, 0.95) 0%, rgba(246, 252, 246, 0.72) 50%, rgba(244, 252, 244, 0.2) 100%);
+  }
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 480px) {
+  .page-shell {
+    background:
+      radial-gradient(circle at top left, rgba(106, 218, 112, 0.12), transparent 43%),
+      radial-gradient(circle at 80% 10%, rgba(83, 212, 89, 0.09), transparent 34%),
+      radial-gradient(circle at 70% 78%, rgba(52, 191, 151, 0.08), transparent 30%),
+      linear-gradient(180deg, #fbfefb 0%, #f7fdf6 48%, #ffffff 100%);
+  }
+}
+
+/* Premium wide container for desktop */
+.container-premium {
+  width: 100%;
+  max-width: 1700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-premium {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-premium {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Premium wide max-width (1700px) */
+.max-w-premium {
+  max-width: 1700px;
+}
+
+.cartoon-heading {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  background: linear-gradient(90deg, #d0478d 0%, #f78d33 32%, #60d766 65%, #44d04b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.cartoon-heading::selection {
+  background: rgba(192, 38, 125, 0.24);
+}
+
+/* Category card titles (Drops, Syrups, Tablets, ...) keep the cartoon font
+   but use one solid dark pink instead of the multi-color gradient — the
+   gradient only reads as one hue per word on short titles, which looked
+   inconsistent card to card. */
+.category-title.cartoon-heading {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: #c2255c;
+}
+
+/* Product detail page styling, unified with the site's violet brand palette */
+.product-detail-shell {
+  background:
+    radial-gradient(circle at 6% 8%, rgba(106, 218, 112, 0.18), transparent 32%),
+    radial-gradient(circle at 92% 16%, rgba(83, 212, 89, 0.13), transparent 30%),
+    radial-gradient(circle at 84% 88%, rgba(52, 191, 151, 0.14), transparent 28%),
+    radial-gradient(circle at 10% 85%, rgba(240, 138, 51, 0.09), transparent 26%),
+    linear-gradient(180deg, #fbfefb 0%, #f7fdf6 45%, #ffffff 100%);
+}
+
+.product-detail-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e8f8e8;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(247, 253, 246, 0.96)),
+    radial-gradient(circle at 20% 10%, rgba(51, 182, 58, 0.11), transparent 35%),
+    radial-gradient(circle at 80% 80%, rgba(42, 185, 139, 0.11), transparent 40%);
+  box-shadow: 0 12px 28px rgba(63, 151, 67, 0.12);
+  animation: pageIn 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.product-detail-hero::before,
+.product-detail-hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(34px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.product-detail-hero::before {
+  top: -18%;
+  right: -8%;
+  width: 32%;
+  height: 65%;
+  background: rgba(109, 218, 114, 0.18);
+}
+
+.product-detail-hero::after {
+  bottom: -22%;
+  left: -6%;
+  width: 24%;
+  height: 55%;
+  background: rgba(42, 185, 139, 0.15);
+}
+
+.product-detail-hero .product-detail-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.85rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(51, 182, 58, 0.13), rgba(42, 185, 139, 0.13));
+  border: 1px solid rgba(51, 182, 58, 0.18);
+  box-shadow: 0 4px 12px rgba(63, 151, 67, 0.08);
+}
+
+.product-detail-hero h1.product-detail-heading {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  background: linear-gradient(90deg, #d0478d 0%, #f78d33 32%, #60d766 65%, #44d04b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+.product-detail-image-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e9f8e9;
+  background: linear-gradient(180deg, #ffffff 0%, #fafdfa 100%);
+  box-shadow: 0 10px 24px rgba(63, 151, 67, 0.1);
+  animation: pageIn 500ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
+}
+
+.product-detail-image-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d0478d, #f78d33, #60d766, #44d04b, #2ab98b);
+}
+
+.product-detail-image-card img {
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-detail-image-card:hover img {
+  transform: scale(1.04);
+}
+
+.product-detail-info-card {
+  --accent: #33b63a;
+  --accent-soft: rgba(51, 182, 58, 0.16);
+  position: relative;
+  border: 1px solid #e9f8e9;
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfefb 100%);
+  box-shadow: 0 8px 20px rgba(63, 151, 67, 0.07);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms;
+  animation: pageIn 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.product-detail-info-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.product-detail-info-card h2::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.product-detail-info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(63, 151, 67, 0.14);
+  border-color: #d4f4d5;
+}
+
+.product-detail-info-card:nth-of-type(6n + 1) {
+  --accent: #33b63a;
+  --accent-soft: rgba(51, 182, 58, 0.16);
+}
+.product-detail-info-card:nth-of-type(6n + 2) {
+  --accent: #1f8b66;
+  --accent-soft: rgba(31, 139, 102, 0.16);
+}
+.product-detail-info-card:nth-of-type(6n + 3) {
+  --accent: #d0478d;
+  --accent-soft: rgba(208, 71, 141, 0.16);
+}
+.product-detail-info-card:nth-of-type(6n + 4) {
+  --accent: #2f9e6f;
+  --accent-soft: rgba(47, 158, 111, 0.16);
+}
+.product-detail-info-card:nth-of-type(6n + 5) {
+  --accent: #d98a1f;
+  --accent-soft: rgba(217, 138, 31, 0.16);
+}
+.product-detail-info-card:nth-of-type(6n + 6) {
+  --accent: #44cc4b;
+  --accent-soft: rgba(68, 204, 75, 0.16);
+}
+
+.product-detail-info-card:nth-of-type(1) {
+  animation-delay: 120ms;
+}
+.product-detail-info-card:nth-of-type(2) {
+  animation-delay: 170ms;
+}
+.product-detail-info-card:nth-of-type(3) {
+  animation-delay: 220ms;
+}
+.product-detail-info-card:nth-of-type(4) {
+  animation-delay: 270ms;
+}
+.product-detail-info-card:nth-of-type(5) {
+  animation-delay: 320ms;
+}
+.product-detail-info-card:nth-of-type(6) {
+  animation-delay: 370ms;
+}
+.product-detail-info-card:nth-of-type(n + 7) {
+  animation-delay: 420ms;
+}
+
+.product-detail-accent {
+  color: #33b53a;
+}
+
+.product-detail-heading {
+  color: #1a3d2e;
+}
+
+.product-detail-body {
+  color: #315f33;
+}
+
+.product-detail-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  color: #33b53a;
+  background: rgba(51, 182, 58, 0.08);
+  border: 1px solid rgba(51, 182, 58, 0.14);
+  transition: gap 250ms ease, color 200ms ease, background-color 200ms ease;
+}
+
+.product-detail-back-link:hover {
+  color: #28962e;
+  background: rgba(51, 182, 58, 0.14);
+}
+
+/* Hero slider controls */
+.hero-slider-arrow {
+  display: flex;
+  height: 34px;
+  width: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid #e2f6e2;
+  background: rgba(255, 255, 255, 0.85);
+  color: #33b53a;
+  box-shadow: 0 8px 20px rgba(63, 151, 67, 0.16);
+  backdrop-filter: blur(4px);
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 200ms ease, box-shadow 200ms ease;
+}
+
+@media (min-width: 640px) {
+  .hero-slider-arrow {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.hero-slider-arrow:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 10px 26px rgba(63, 151, 67, 0.22);
+}
+
+.hero-slider-arrow:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.hero-slide-scroll {
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hero-slide-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Slide 2 overlapping product hero-shot */
+.product-platform-stage {
+  isolation: isolate;
+}
+
+.product-platform-base {
+  position: absolute;
+  left: 50%;
+  bottom: 0%;
+  transform: translateX(-50%);
+  width: 96%;
+  height: 16%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(235, 249, 235, 0.75) 100%);
+  box-shadow: 0 22px 48px rgba(63, 151, 67, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  z-index: 1;
+}
+
+.product-platform-blob-1,
+.product-platform-blob-2 {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(36px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.product-platform-blob-1 {
+  top: -8%;
+  right: -4%;
+  width: 42%;
+  height: 42%;
+  background: rgba(109, 218, 114, 0.18);
+}
+
+.product-platform-blob-2 {
+  bottom: -6%;
+  left: -6%;
+  width: 34%;
+  height: 34%;
+  background: rgba(42, 185, 139, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slider-arrow {
+    transition: none;
+  }
+}
